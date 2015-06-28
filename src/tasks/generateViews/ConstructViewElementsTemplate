@@ -1,0 +1,2 @@
+        $this->{{PROPERTY_NAME}} = new ViewElement("{{PROPERTY_NAME}}");
+
