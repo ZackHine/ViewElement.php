@@ -13,7 +13,11 @@
     "require": {
       "php": ">=5.3.0"
     },
+    "require-dev": {
+      "phing/phing": "2.*"
+    },
     "autoload": {
+      "classmap": ["src/tasks/generateViews/GenerateView.php"],
       "psr-0": {
         "ViewElement": "src/"
       }

@@ -7,7 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class GenerateView extends Task {
+
+class GenerateView extends \Task {
 
     /**
      * The name passed in the buildfile.
@@ -33,15 +34,18 @@ class GenerateView extends Task {
      */
     public function main() {
         $matches = array();
+        // TODO: This path needs to come from a config file or something
         preg_match('@^\.\.\\\commands\\\(.*)\\\view\\\(.*)\.html@i', $this->name, $matches);
 
         echo "$this->name<---------";
         $viewFile = file_get_contents($this->name);
+        // TODO: ALViewElement should be configurable or at least be just "ViewElement"
         preg_match_all('@<.* id\s*=\s*["|\']{{ALViewElement_(.*)}}["|\'].*>@i', $viewFile, $viewMatches);
 
         $template = file_get_contents("generateViews/ViewTemplate");
 
         $vars = array();
+        // TODO: We shouldn't need a command name, we need to figure out another way to do it
         $vars["command_name"] = ucfirst($matches[1]);
         if($vars["command_name"] == "Common") {
             $vars["command_name"] = "common";
@@ -87,6 +91,7 @@ class GenerateView extends Task {
         $template = $this->replaceToken("constructor", $constructPiece, $template);
         $template = $this->replaceToken("view_elements_array", $viewElementsArrayPiece, $template);
 
+        // TODO: Again, the path to our views needs to be configurable somehow
         $fh = fopen("../commands/".$matches[1]."/view/".ucfirst($matches[2]).".php", "w");
         fwrite($fh, $template);
         fclose($fh);

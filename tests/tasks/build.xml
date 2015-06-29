@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="FooBar" default="dist">
+    <php expression="include('../../vendor/autoload.php')"/>
+
+    <taskdef name="generateview" classname="generateViews.GenerateView" />
+
+    <!-- ============================================  -->
+    <!-- Target: build                                 -->
+    <!-- ============================================  -->
+    <target name="build">
+
+        <foreach param="file" absparam="absname" target="viewgenerator">
+            <fileset dir="../view">
+                <include name="*.html"/>
+            </fileset>
+        </foreach>
+
+    </target>
+
+    <target name="viewgenerator" >
+        <echo msg="Generating View: ${absname}" />
+        <generateview name="${absname}"/>
+    </target>
+
+    <!-- ============================================  -->
+    <!-- (DEFAULT)  Target: dist                       -->
+    <!-- ============================================  -->
+    <target name="dist" depends="build">
+        <echo msg="Creating archive..." />
+    </target>
+</project>
