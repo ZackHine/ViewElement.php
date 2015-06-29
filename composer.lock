@@ -4,9 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4ba07409ee92030159c07742ef02cba7",
-    "packages": [],
-    "packages-dev": [
+    "hash": "f8777687f507a188a363811e19a61174",
+    "packages": [
         {
             "name": "phing/phing",
             "version": "dev-master",
@@ -100,6 +99,7 @@
             "time": "2015-06-17 13:05:11"
         }
     ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": [],

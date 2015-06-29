@@ -7,6 +7,10 @@
  * To change this template use File | Settings | File Templates.
  */
 
+include_once "ViewTemplate.php";
+include_once "ConstructViewElementsTemplate.php";
+include_once "PropertiesTemplate.php";
+include_once "ViewElementsArrayTemplate.php";
 
 class GenerateView extends \Task {
 
@@ -42,7 +46,7 @@ class GenerateView extends \Task {
         // TODO: ALViewElement should be configurable or at least be just "ViewElement"
         preg_match_all('@<.* id\s*=\s*["|\']{{ALViewElement_(.*)}}["|\'].*>@i', $viewFile, $viewMatches);
 
-        $template = file_get_contents("generateViews/ViewTemplate");
+        $template = getViewTemplate();
 
         $vars = array();
         // TODO: We shouldn't need a command name, we need to figure out another way to do it
@@ -66,13 +70,13 @@ class GenerateView extends \Task {
             echo "DOM HTML:";
 
             $veVars["property_name"] = $viewElement;
-            $constructTemplate = file_get_contents("generateViews/ConstructViewElementsTemplate");
+            $constructTemplate = getConstructViewElementsTemplate();
 
             // constructor
             $vars = array();
             $vars["property_name"] = $viewElement;
 
-            $propertiesTemplate = file_get_contents("generateViews/PropertiesTemplate");
+            $propertiesTemplate = getPropertiesTemplate();
             $propertiesPiece .=  $this->replaceTokens($vars, $propertiesTemplate);
 
             $constructPiece .=  $this->replaceTokens($veVars, $constructTemplate);
@@ -82,7 +86,7 @@ class GenerateView extends \Task {
             $vars["property_name"] = $viewElement;
             $vars["comma"] = count($viewMatches[1]) === $cnt ? "" : ",";
 
-            $viewElementsArrayTemplate = file_get_contents("generateViews/ViewElementsArrayTemplate");
+            $viewElementsArrayTemplate = getViewElementsArrayTemplate();
             $viewElementsArrayPiece .=  $this->replaceTokens($vars, $viewElementsArrayTemplate);
 
             ++$cnt;
@@ -90,6 +94,8 @@ class GenerateView extends \Task {
         $template = $this->replaceToken("view_element_declarations", $propertiesPiece, $template);
         $template = $this->replaceToken("constructor", $constructPiece, $template);
         $template = $this->replaceToken("view_elements_array", $viewElementsArrayPiece, $template);
+
+        echo $template;
 
         // TODO: Again, the path to our views needs to be configurable somehow
         $fh = fopen("../commands/".$matches[1]."/view/".ucfirst($matches[2]).".php", "w");
