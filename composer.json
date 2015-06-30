@@ -10,6 +10,9 @@
         }
     ],
     "keywords" : ["templating"],
+     "support": {
+        "issues": "https://github.com/ZackHine/ViewElement.php/issues"
+    },
     "minimum-stability": "dev",
     "require": {
       "php": ">=5.3.0",
