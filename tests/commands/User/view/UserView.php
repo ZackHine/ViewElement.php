@@ -1,6 +1,6 @@
 <?php
 
-{{NAMESPACE}}
+namespace commands\User\view;
 
 use ViewElement\view\View as View,
     ViewElement\view\IView as IView,
@@ -9,18 +9,21 @@ use ViewElement\view\View as View,
 /**
   * This is a generated class. Do not edit.
   */
-class {{CLASS_NAME}} extends View implements IView {
-{{VIEW_ELEMENT_DECLARATIONS}}
+class UserView extends View implements IView {
+    public $wrapper;
+
     function __construct(){
-{{CONSTRUCTOR}}
+        $this->wrapper = new ViewElement("wrapper");
+
+
     }
 
     public function getViewFile() {
-        return "{{VIEW_FILE_NAME}}";
+        return "commands\User\view\userView.html";
     }
 
     public function getViewElements() {
-        $arr = array({{VIEW_ELEMENTS_ARRAY}});
+        $arr = array($this->wrapper);
         return $arr;
     }
 

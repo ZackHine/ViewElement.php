@@ -2,7 +2,7 @@
 <project version="4">
   <component name="PhingConfiguration">
     <buildFilePaths>
-      <buildFile path="file://$PROJECT_DIR$/tests/tasks/build.xml" />
+      <buildFile path="file://$PROJECT_DIR$/tests/build.xml" />
     </buildFilePaths>
     <phingPath>$USER_HOME$/Downloads/phing-2.4.13/bin/phing.bat</phingPath>
   </component>

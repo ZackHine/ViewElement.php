@@ -39,9 +39,29 @@ class GenerateView extends \Task {
     public function main() {
         $matches = array();
         // TODO: This path needs to come from a config file or something
-        preg_match('@^\.\.\\\commands\\\(.*)\\\view\\\(.*)\.html@i', $this->name, $matches);
+        preg_match('@^(.*\\\\)*(.*)\.html@i', $this->name, $matches);
 
-        echo "$this->name<---------";
+        // TODO: namespace needs to come from a view-element-build.json file:
+        // TODO:
+        /**
+         * namespaces: [
+         *      "src": "namespace"
+         * ]
+         */
+        // TODO: Then we look for it based on $this->name. If doesn't exist, no namespace
+
+        $viewElementBuild = file_get_contents("view-element-build.json");// TODO: What if doesn't exist?
+        $viewElementBuild = json_decode($viewElementBuild, true);
+        $namespace = null;
+        if($viewElementBuild["namespaces"] !== null) {
+            foreach($viewElementBuild["namespaces"] as $namespace) {
+                if($namespace[$matches[1]] !== null) {
+                    $namespace = $namespace[$matches[1]];
+                    break;
+                }
+            }
+        }
+
         $viewFile = file_get_contents($this->name);
         // TODO: ALViewElement should be configurable or at least be just "ViewElement"
         preg_match_all('@<.* id\s*=\s*["|\']{{ALViewElement_(.*)}}["|\'].*>@i', $viewFile, $viewMatches);
@@ -54,8 +74,13 @@ class GenerateView extends \Task {
         if($vars["command_name"] == "Common") {
             $vars["command_name"] = "common";
         }
+        if($namespace !== null) {
+            $vars["namespace"] = "namespace ".$namespace.";";
+        } else {
+            $vars["namespace"] = "";
+        }
         $vars["class_name"] = ucfirst($matches[2]);
-        $vars["view_file_name"] = $matches[2];
+        $vars["view_file_name"] = $this->name;
         $template = $this->replaceTokens($vars, $template);
 
         $propertiesPiece = "";
@@ -98,7 +123,7 @@ class GenerateView extends \Task {
         echo $template;
 
         // TODO: Again, the path to our views needs to be configurable somehow
-        $fh = fopen("../commands/".$matches[1]."/view/".ucfirst($matches[2]).".php", "w");
+        $fh = fopen($matches[1].ucfirst($matches[2]).".php", "w");// TODO: Need to get those backslashes turned around?
         fwrite($fh, $template);
         fclose($fh);
     }

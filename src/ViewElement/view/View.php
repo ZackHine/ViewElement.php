@@ -13,7 +13,7 @@ class View implements IView  {
     private $_html = "";
 
     public function create($replaceHtml = false) {
-        $this->_html = file_get_contents("commands/".$this->getCommandName()."/view/".$this->getViewFile());
+        $this->_html = file_get_contents($this->getViewFile());// this is relative root directory
         $dom = new \DOMDocument();
 //        libxml_use_internal_errors(true);
         $dom->loadHTML($this->_html);
@@ -41,9 +41,5 @@ class View implements IView  {
 
     function getViewFile()  {
         throw new \Exception ("Error: getViewFile must be implemented in Child Class");
-    }
-
-    function getCommandName() {
-        throw new \Exception ("Error: getCommandName must be implemented in Child Class");
     }
 }

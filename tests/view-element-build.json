@@ -1,0 +1,12 @@
+{
+  "view-element": "ALViewElement",
+  "dir-sep": "\\",
+  "namespaces": [
+    {
+      "commands\\User\\view\\": "commands\\User\\view"
+    },
+    {
+      "commands\\Admin\\view\\": "commands\\Admin\\view"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="FooBar" default="dist">
-    <php expression="include('../../vendor/autoload.php')"/>
+<project name="FooBar" default="dist" basedir=".">
+    <php expression="include('../vendor/autoload.php')"/>
 
     <taskdef name="generateview" classname="generateViews.GenerateView" />
 
@@ -11,8 +11,8 @@
     <target name="build">
 
         <foreach param="file" absparam="absname" target="viewgenerator">
-            <fileset dir="../view">
-                <include name="*.html"/>
+            <fileset dir="commands">
+                <include name="*/view/*.html"/>
             </fileset>
         </foreach>
 

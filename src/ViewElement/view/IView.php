@@ -11,6 +11,5 @@ namespace ViewElement\view;
 interface IView {
     function getViewFile();
     function getViewElements();
-    function getCommandName();
 }
 ?>
