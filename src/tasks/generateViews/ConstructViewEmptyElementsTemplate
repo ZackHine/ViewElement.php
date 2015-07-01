@@ -1,2 +1,0 @@
-        $this->{{PROPERTY_NAME}} = new ViewEmptyElement("{{FULL_MATCH}}", "{{PROPERTY_NAME}}", "{{ELEMENT_TYPE}}", "{{ID_POS}}", "{{T_OP_POS}}", "{{T_CL_POS}}", "{{ID_MATCH}}", "{{FULL_LEN}}", "{{OLD_FULL}}");
-
