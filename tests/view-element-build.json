@@ -1,6 +1,6 @@
 {
   "view-element": "ALViewElement",
-  "dir-sep": "\\",
+  "dir-sep": "/",
   "namespaces": [
     {
       "commands\\User\\view\\": "commands\\User\\view"

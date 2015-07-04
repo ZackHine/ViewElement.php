@@ -11,19 +11,22 @@ use ViewElement\view\View as View,
   */
 class AdminView extends View implements IView {
     public $wrapper;
+    public $somethingElse;
 
     function __construct(){
         $this->wrapper = new ViewElement("wrapper");
+
+        $this->somethingElse = new ViewElement("somethingElse");
 
 
     }
 
     public function getViewFile() {
-        return "commands\Admin\view\adminView.html";
+        return "commands/Admin/view/AdminView.php";
     }
 
     public function getViewElements() {
-        $arr = array($this->wrapper);
+        $arr = array($this->wrapper,$this->somethingElse);
         return $arr;
     }
 

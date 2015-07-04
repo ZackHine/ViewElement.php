@@ -17,7 +17,6 @@ class GenerateView extends \Task {
     const DIR_SEP_KEY = "dir-sep";
     const NAMESPACES_KEY = "namespaces";
     const DEFAULT_VIEW_ELEMENT_VALUE = "ViewElement";
-    const DEFAULT_DIR_SEP_VALUE = "\\";
 
     /**
      * The name passed in the buildfile.
@@ -38,8 +37,6 @@ class GenerateView extends \Task {
         // nothing to do here
     }
 
-
-
     /**
      * The main entry point method.
      */
@@ -54,6 +51,7 @@ class GenerateView extends \Task {
 
             $viewElementValue = $this->setUpViewElement($viewElementBuild);
             $namespaceValue = $this->setUpNamespace($viewElementBuild, $fileNameMatches);
+            $directorySeparator = $this->setUpDirectorySeparator($viewElementBuild);
 
             $viewFile = file_get_contents($this->name);
             preg_match_all('@<.* id\s*=\s*["|\']{{'.$viewElementValue.'_(.*)}}["|\'].*>@i', $viewFile, $viewMatches);// find all elements in html with id starting with $viewElementValue
@@ -68,7 +66,8 @@ class GenerateView extends \Task {
                 $vars["namespace"] = "";
             }
             $vars["class_name"] = ucfirst($fileNameMatches[2]);
-            $vars["view_file_name"] = $this->name;
+            $vars["view_file_name"] = $this->setUpViewFileName($fileNameMatches, $directorySeparator);
+
             $template = $this->replaceTokens($vars, $template);
 
             $propertiesPiece = "";
@@ -109,7 +108,7 @@ class GenerateView extends \Task {
 
             echo $template;
 
-            $fh = fopen($fileNameMatches[1].ucfirst($fileNameMatches[2]).".php", "w");// TODO: Need to get those backslashes turned around?
+            $fh = fopen($fileNameMatches[1].ucfirst($fileNameMatches[2]).".php", "w");
             fwrite($fh, $template);
             fclose($fh);
         }
@@ -124,6 +123,7 @@ class GenerateView extends \Task {
      * @param array $fileNameMatches
      */
     protected function setUpFileNameMatches(array &$fileNameMatches) {
+        echo $this->name;
         preg_match('@^(.*\\\\)*(.*)\.html@i', $this->name, $fileNameMatches);
     }
 
@@ -154,6 +154,34 @@ class GenerateView extends \Task {
      */
     protected function setUpViewElement($viewElementBuild) {
         return $viewElementBuild[GenerateView::VIEW_ELEMENT_KEY] !== null ? $viewElementBuild[GenerateView::VIEW_ELEMENT_KEY] : GenerateView::DEFAULT_VIEW_ELEMENT_VALUE;
+    }
+
+    /** Given associative array representation of view-element-build.json, and fileNameMatches for current file,
+     * returns dir-sep in view-element-build or DIRECTORY_SEPARATOR as defined by PHP if not defined
+     * @param $viewElementBuild
+     * @return string
+     */
+    protected function setUpDirectorySeparator($viewElementBuild) {
+        return $viewElementBuild[GenerateView::DIR_SEP_KEY] !== null ? $viewElementBuild[GenerateView::DIR_SEP_KEY] : DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * Given $fileNameMatches for current file, and defined directorySeparator, create view file name which will
+     * be inserted into View File
+     * @param $fileNameMatches
+     * @param $directorySeparator
+     * @return mixed|string
+     */
+    protected function setUpViewFileName($fileNameMatches, $directorySeparator) {
+        // Remove backslashes if they exist and directory separator is forward slashes, or remove forward
+        // slashes if they exist and directory separator is backslashes
+        $fileName = $fileNameMatches[1].ucfirst($fileNameMatches[2]).".php";
+        if($directorySeparator === "\\") {
+            $fileName = str_replace('/', '\\', $fileName);
+        } else {
+            $fileName = str_replace('\\', '/', $fileName);
+        }
+        return $fileName;
     }
 
     private function replaceTokens($tokens, $template) {
