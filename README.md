@@ -1,4 +1,4 @@
-# ViewElement.php
+# ViewElement.php [![Latest Stable Version](https://poser.pugx.org/zackhine/view-element.php/v/stable)](https://packagist.org/packages/zackhine/view-element.php) [![Total Downloads](https://poser.pugx.org/zackhine/view-element.php/downloads)](https://packagist.org/packages/zackhine/view-element.php) [![Latest Unstable Version](https://poser.pugx.org/zackhine/view-element.php/v/unstable)](https://packagist.org/packages/zackhine/view-element.php) [![License](https://poser.pugx.org/zackhine/view-element.php/license)](https://packagist.org/packages/zackhine/view-element.php)
 > PHP Template Engine that blurs the line between Markup and PHP
 
 # Purpose
@@ -179,10 +179,10 @@ The create method is what is used to generate the view once you have configured 
     echo $commonView->create();
 
 ### ViewElement
-The ViewElements which are access via the PHP View Class are what the programmer uses to alter the view in whatever way they need to. ViewElements provide an API for easy configuration:
+The ViewElements which are accessed via the PHP View Class are what the programmer uses to alter the view in whatever way they need to. ViewElements provide an API for easy configuration:
 
 #### setContent/getContent
-setContent is used to set the content inside the HTML Element the ViewElement represents. If there is already HTML content inside the ViewElement, the content added via setContent will be place before the existing content. 
+setContent is used to set the content inside the HTML Element the ViewElement represents. If there is already HTML content inside the ViewElement, the content added via setContent will be placed before the existing content. 
 
 You can only call setContent one time per ViewElement. Calling it more than once will overwrite the previous call.
 
@@ -203,7 +203,7 @@ Generated HTML:
 #### appendContent
 appendContent is similar to setContent except that it does allow you to call it multiple times. Also, if there is already HTML content inside the ViewElement, the content added via appendContent will be placed after this existing content.
 
-getContent works the same way when paired with appendContent as it does with setContent
+getContent works the same way when paired with appendContent as it does with setContent.
 
 HTML:
 
@@ -218,9 +218,9 @@ Generated HTML:
     <li id="messagesItem">Messages 2</li>
     
 #### setAttribute/getAttribute
-setAttribute is used to set an attribute on the HTML Element the ViewElement represents. The attribute does **not** need to already exist on the HTML element. If it does not it will be created and the value will be added. Like setContent, calling this method multiple times will overwrite what you have already added. Also, if the given attribute already exists in the raw HTML, that will be overwritten as well.
+setAttribute is used to set an attribute on the HTML Element the ViewElement represents. The attribute does **not** need to already exist on the HTML element. If it does not it will be created and the value will be added. Like setContent, calling this method multiple times will overwrite what you have already set. Also, if the given attribute already exists in the raw HTML, that will be overwritten as well.
  
-getAttribute takes a string as parameter and returns the value you've set for that attribute.
+getAttribute takes a string as a parameter and returns the value you've set for that attribute.
 
 HTML:
 
@@ -235,9 +235,9 @@ Generated HTML:
     <li id="homeItem" class="active">Home</li>
     
 #### appendAttribute
-appendAttribute is similar setAttribute except that it appends the value given to the attribute name passed in instead of overwriting it.
+appendAttribute is similar to setAttribute except that it appends the value given to the attribute name passed in instead of overwriting it.
 
-getAttribute works the same way when paired with appendAttribute as it does with setAttribute
+getAttribute works the same way when paired with appendAttribute as it does with setAttribute.
 
 HTML:
 
