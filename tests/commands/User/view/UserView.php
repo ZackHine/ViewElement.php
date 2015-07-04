@@ -19,7 +19,7 @@ class UserView extends View implements IView {
     }
 
     public function getViewFile() {
-        return "commands/User/view/UserView.php";
+        return "tests/commands/User/view/UserView.html";
     }
 
     public function getViewElements() {

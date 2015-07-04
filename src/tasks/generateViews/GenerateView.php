@@ -14,6 +14,7 @@ include_once "ViewElementsArrayTemplate.php";
 
 class GenerateView extends \Task {
     const VIEW_ELEMENT_KEY = "view-element";
+    const VIEW_FILE_ROOT_KEY = "view-file-root";// if this is defined it needs to be relative the actual root
     const DIR_SEP_KEY = "dir-sep";
     const NAMESPACES_KEY = "namespaces";
     const DEFAULT_VIEW_ELEMENT_VALUE = "ViewElement";
@@ -50,6 +51,7 @@ class GenerateView extends \Task {
             $viewElementBuild = json_decode($viewElementBuild, true);
 
             $viewElementValue = $this->setUpViewElement($viewElementBuild);
+            $viewFileRoot = $this->setUpViewFileRoot($viewElementBuild);
             $namespaceValue = $this->setUpNamespace($viewElementBuild, $fileNameMatches);
             $directorySeparator = $this->setUpDirectorySeparator($viewElementBuild);
 
@@ -66,7 +68,7 @@ class GenerateView extends \Task {
                 $vars["namespace"] = "";
             }
             $vars["class_name"] = ucfirst($fileNameMatches[2]);
-            $vars["view_file_name"] = $this->setUpViewFileName($fileNameMatches, $directorySeparator);
+            $vars["view_file_name"] = $this->setUpViewFileName($fileNameMatches, $directorySeparator, $viewFileRoot);
 
             $template = $this->replaceTokens($vars, $template);
 
@@ -111,9 +113,8 @@ class GenerateView extends \Task {
             $fh = fopen($fileNameMatches[1].ucfirst($fileNameMatches[2]).".php", "w");
             fwrite($fh, $template);
             fclose($fh);
-        }
-        catch (Exception $e) {
-            echo "Error: view-element-build.json must exist at root";
+        } catch (Exception $e) {
+            echo "Error: view-element-build.json must exist at root";// TODO: Do we REALLY need a view-element-build.json defined?
         }
     }
 
@@ -123,7 +124,6 @@ class GenerateView extends \Task {
      * @param array $fileNameMatches
      */
     protected function setUpFileNameMatches(array &$fileNameMatches) {
-        echo $this->name;
         preg_match('@^(.*\\\\)*(.*)\.html@i', $this->name, $fileNameMatches);
     }
 
@@ -156,6 +156,15 @@ class GenerateView extends \Task {
         return $viewElementBuild[GenerateView::VIEW_ELEMENT_KEY] !== null ? $viewElementBuild[GenerateView::VIEW_ELEMENT_KEY] : GenerateView::DEFAULT_VIEW_ELEMENT_VALUE;
     }
 
+    /**
+     * Given associative array representation of view-element-build.json, returns defined view-file-root value or null which means the actual root
+     * @param $viewElementBuild
+     * @return null|string
+     */
+    protected function setUpViewFileRoot($viewElementBuild) {
+        return $viewElementBuild[GenerateView::VIEW_FILE_ROOT_KEY] !== null ? $viewElementBuild[GenerateView::VIEW_FILE_ROOT_KEY] : null;
+    }
+
     /** Given associative array representation of view-element-build.json, and fileNameMatches for current file,
      * returns dir-sep in view-element-build or DIRECTORY_SEPARATOR as defined by PHP if not defined
      * @param $viewElementBuild
@@ -166,20 +175,25 @@ class GenerateView extends \Task {
     }
 
     /**
-     * Given $fileNameMatches for current file, and defined directorySeparator, create view file name which will
+     * Given $fileNameMatches for current file, defined directorySeparator, and viewFileRoot create view file name which will
      * be inserted into View File
      * @param $fileNameMatches
      * @param $directorySeparator
+     * @param $viewFileRoot
      * @return mixed|string
      */
-    protected function setUpViewFileName($fileNameMatches, $directorySeparator) {
+    protected function setUpViewFileName($fileNameMatches, $directorySeparator, $viewFileRoot) {
         // Remove backslashes if they exist and directory separator is forward slashes, or remove forward
         // slashes if they exist and directory separator is backslashes
-        $fileName = $fileNameMatches[1].ucfirst($fileNameMatches[2]).".php";
+        $fileName = $fileNameMatches[1].ucfirst($fileNameMatches[2]).".html";
         if($directorySeparator === "\\") {
             $fileName = str_replace('/', '\\', $fileName);
         } else {
             $fileName = str_replace('\\', '/', $fileName);
+        }
+
+        if($viewFileRoot !== null) {
+            $fileName = $viewFileRoot.$directorySeparator.$fileName;
         }
         return $fileName;
     }

@@ -1,5 +1,6 @@
 {
   "view-element": "ALViewElement",
+  "view-file-root": "tests",
   "dir-sep": "/",
   "namespaces": [
     {

@@ -6,7 +6,11 @@
  * Time: 7:10 PM
  */
 require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
+require_once 'commands/Admin/view/AdminView.php';
 
-use ViewElement\view\ViewElement;
+$adminView = new \commands\Admin\view\AdminView();
 
-$viewElement = new ViewElement("admin_navList");
+$adminView->wrapper->setAttribute("class", "myClassAttribute");
+$adminView->somethingElse->remove();
+
+echo $adminView->create();

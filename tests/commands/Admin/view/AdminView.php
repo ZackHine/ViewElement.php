@@ -22,7 +22,7 @@ class AdminView extends View implements IView {
     }
 
     public function getViewFile() {
-        return "commands/Admin/view/AdminView.php";
+        return "tests/commands/Admin/view/AdminView.html";
     }
 
     public function getViewElements() {
