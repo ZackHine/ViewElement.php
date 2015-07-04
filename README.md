@@ -90,7 +90,7 @@ If this property is not included, then GenerateView will use the value obtained 
 #### namespaces *(Optional)*:
 The namespaces property expects an array mapping source paths to namespaces. The GenerateView Task will use the path of the HTML file passed in to look into this mapping to find what value should be used as the namespace in the generated PHP View Class file. If GenerateView cannot find the path, there will be no namepsace in the generated Class.
 
-### build.xml
+## build.xml
 With your view-element-build.json file configured correctly, you can run the GenerateView Phing task to generate PHP Classes based off HTML Templates.
 
 To get this working, you must do two things in your build.xml file:
@@ -141,7 +141,7 @@ For reference, a complete build.xml file is included below:
         </target>
     </project>
 
-### Running build
+## Running build
 I recommend using [PhpStorm](https://www.jetbrains.com/phpstorm/) for PHP Development. PhpStorm makes it very easy to run a Phing Build. Please see this page for instructions:
 
 [Phing Build using PhpStorm](https://www.jetbrains.com/phpstorm/help/enabling-phing-support.html)
