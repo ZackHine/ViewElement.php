@@ -146,15 +146,154 @@ I recommend using [PhpStorm](https://www.jetbrains.com/phpstorm/) for PHP Develo
 
 [Phing Build using PhpStorm](https://www.jetbrains.com/phpstorm/help/enabling-phing-support.html)
 
+## Usage in your code
+All of the below code snippets come from tests/test.php in this project
 
-## require in source
+### require in source
 Once all of your files have been generated, it's easy to use ViewElement.php in your project. 
 
 All you need to do is include the composer autoload.php file:
 
     require_once __DIR__ . '/vendor/autoload.php';
     
-## Usage in your code
-TODO...
+### View
+The generated PHP View Class has three main purposes for the programmer.
 
+1.  Initializing the View
+2.  Provide access to the ViewElements
+3.  The create method
 
+### Initializing the View:
+You initialize the View by using it's constructor:
+
+    $commonView = new \commands\Common\view\CommonView();
+
+#### Provide access to the ViewElements:
+Every ViewElement in a View Class can be accessed directly:
+
+    $commonView->homeItem
+    
+### The create method:
+The create method is what is used to generate the view once you have configured each ViewElement. This will return the generated DOM as a string. This string can then be returned to the browser:
+
+    echo $commonView->create();
+
+### ViewElement
+The ViewElements which are access via the PHP View Class are what the programmer uses to alter the view in whatever way they need to. ViewElements provide an API for easy configuration:
+
+#### setContent/getContent
+setContent is used to set the content inside the HTML Element the ViewElement represents. If there is already HTML content inside the ViewElement, the content added via setContent will be place before the existing content. 
+
+You can only call setContent one time per ViewElement. Calling it more than once will overwrite the previous call.
+
+getContent will simply return the content you've already set.
+
+HTML:
+    
+    <header id="{{ALViewElement_homeHeaderNavTitle}}"></header>
+
+PHP:
+
+     $commonView->homeHeaderNavTitle->setContent("Admin Options");
+     
+Generated HTML:
+
+    <header id="homeHeaderNavTitle">Admin Options</header>
+    
+#### appendContent
+appendContent is similar to setContent except that it does allow you to call it multiple times. Also, if there is already HTML content inside the ViewElement, the content added via appendContent will be placed after this existing content.
+
+getContent works the same way when paired with appendContent as it does with setContent
+
+HTML:
+
+    <li id="{{ALViewElement_messagesItem}}">Messages</li>
+    
+PHP:
+
+    $commonView->messagesItem->appendContent(" 2");
+    
+Generated HTML:
+
+    <li id="messagesItem">Messages 2</li>
+    
+#### setAttribute/getAttribute
+setAttribute is used to set an attribute on the HTML Element the ViewElement represents. The attribute does **not** need to already exist on the HTML element. If it does not it will be created and the value will be added. Like setContent, calling this method multiple times will overwrite what you have already added. Also, if the given attribute already exists in the raw HTML, that will be overwritten as well.
+ 
+getAttribute takes a string as parameter and returns the value you've set for that attribute.
+
+HTML:
+
+    <li id="{{ALViewElement_homeItem}}">Home</li>
+    
+PHP: 
+
+    $commonView->homeItem->setAttribute("class", "active");
+    
+Generated HTML:
+
+    <li id="homeItem" class="active">Home</li>
+    
+#### appendAttribute
+appendAttribute is similar setAttribute except that it appends the value given to the attribute name passed in instead of overwriting it.
+
+getAttribute works the same way when paired with appendAttribute as it does with setAttribute
+
+HTML:
+
+    <img id="{{ALViewElement_userImg}}" src="path/to/img/for/user/id/">
+    
+PHP:
+
+    $commonView->userImg->appendAttribute("src", $user->getUserId());
+    
+Generated HTML:
+
+    <img id="userImg" src="path/to/img/for/user/id/1">
+    
+#### remove
+The remove method is used to remove the HTML Element the ViewElement represents from the DOM. When the HTML is generated the HTML Element will no longer exist.
+
+HTML:
+
+     <ul id="{{ALViewElement_navItems}}">
+        <li id="{{ALViewElement_homeItem}}">Home</li>
+        <li id="{{ALViewElement_messagesItem}}">Messages</li>
+        <li id="{{ALViewElement_adminAccessItem}}">Admin Access</li>
+     </ul>
+     
+PHP:
+
+    $commonView->adminAccessItem->remove();
+    
+Generated HTML:
+
+    <ul id="navItems">
+        <li id="homeItem">Home</li>
+        <li id="messagesItem">Messages</li>
+    </ul>
+    
+#### removeIdAfterCreation
+Sometimes you may want to define a ViewElement so that you can modify it, but you may not want an id on the HTML Element when it's generated. You can use removeIdAfterCreation to assure the generated HTML Element will not have an id.
+
+HTML:
+    
+     <ul id="adminList" class="horizontal tabs">
+        <li id="{{ALViewElement_adminAction1}}" class="tab">Admin Action 1</li>
+        <li id="{{ALViewElement_adminAction2}}" class="tab">Admin Action 2</li>
+        <li id="{{ALViewElement_adminAction3}}" class="tab">Admin Action 3</li>
+    </ul>
+   
+PHP:
+
+     $adminHomeView->adminAction1->removeIdAfterCreation();
+     $adminHomeView->adminAction2->removeIdAfterCreation();
+     $adminHomeView->adminAction3->removeIdAfterCreation();
+     
+Generated HTML:
+
+    <ul id="adminList" class="horizontal tabs">
+        <li class="tab">Admin Action 1</li>
+        <li class="tab">Admin Action 2</li>
+        <li class="tab">Admin Action 3</li>
+    </ul>
