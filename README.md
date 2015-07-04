@@ -24,7 +24,7 @@ It is recommended that you use Composer to install this library. To do that, you
 If you don't want to use Composer you could download the source here and include the library in your application. Just be weary that the documentation here is written assuming Composer is being used. Thus, if you're not using Composer some things like paths could end up being different.
 
 ## Phing Build
-One of the nicest features of ViewElement.php is all of the would-be repetitive work is handled by a Phing Build Task. The GenerateView Task looks through all of your HTML files that you pass to it and converts them into a PHP Class. This Class can then be used in your application code to set up your view. In order to get the GenerateView Task working please read the information below:
+One of the nicest features of ViewElement.php is all of the would-be repetitive work is handled by a Phing Build Task. The GenerateView Task looks through all of your HTML files that you pass to it and converts them into PHP Classes. The Classes can then be used in your application code to set up your view. In order to get the GenerateView Task working please read the information below:
 
 ### view-element-build.json
 The view-element.build.json file is the configuration file for the GenerateView Phing Task. This file must be at the root of your project and currently must exist.
@@ -50,7 +50,7 @@ There are 4 properties that can all be optionally added which will be discussed 
 
 
 #### view-element *(Optional)*:
-This is what the GenerateView Task will look for on your HTML elements to know which ViewElements to create in the generated View files. The tak will look for:
+This is what the GenerateView Task will look for on your HTML elements to know which ViewElements to create in the generated View files. The task will look for:
   
     id="{{[view-element-property]_yourElementId}}"
 
@@ -73,7 +73,7 @@ This is only needed if your view-element-build.json and build.xml files are not 
 The value for this property **must** be relative your project root.
 
 #### dir-sep *(Optional)*:
-The generated PHP View Classes, all implement the IView Interface. One method of the IView interface is getViewFile which must return the path to the HTML file the PHP Class is generated from relative the project root. The dir-sep property can be used to tell the GenerateView Task what to use as a directory separator in this path.
+The generated PHP View Classes all implement the IView Interface. One method of the IView interface is getViewFile which must return the path to the HTML file the PHP Class is generated from relative the project root. The dir-sep property can be used to tell the GenerateView Task what to use as a directory separator in this path.
  
 For example if you have the following:
 
@@ -93,7 +93,7 @@ The namespaces property expects an array mapping source paths to namespaces. The
 ## build.xml
 With your view-element-build.json file configured correctly, you can run the GenerateView Phing task to generate PHP Classes based off HTML Templates.
 
-To get this working, you must do two things in your build.xml file:
+To get this working, you must do three things in your build.xml file:
 
 1.  include composer autoload.php in your build.xml
     
