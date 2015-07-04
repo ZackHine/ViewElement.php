@@ -81,7 +81,6 @@ class GenerateView extends \Task {
             foreach($viewMatches[1] as $viewElement) {
                 $dom = new DOMDocument();
                 $dom->loadHTML($viewFile);
-                echo "DOM HTML:";
 
                 $veVars["property_name"] = $viewElement;
                 $constructTemplate = getConstructViewElementsTemplate();
@@ -138,9 +137,9 @@ class GenerateView extends \Task {
     protected function setUpNamespace($viewElementBuild, $fileNameMatches) {
         $namespace = null;
         if($viewElementBuild[GenerateView::NAMESPACES_KEY] !== null) {
-            foreach($viewElementBuild[GenerateView::NAMESPACES_KEY] as $namespace) {
-                if($namespace[$fileNameMatches[1]] !== null) {
-                    $namespace = $namespace[$fileNameMatches[1]];
+            foreach($viewElementBuild[GenerateView::NAMESPACES_KEY] as $namespaceValue) {
+                if($namespaceValue[$fileNameMatches[1]] !== null) {
+                    $namespace = $namespaceValue[$fileNameMatches[1]];
                     break;
                 }
             }

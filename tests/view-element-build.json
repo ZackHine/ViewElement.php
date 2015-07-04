@@ -8,6 +8,9 @@
     },
     {
       "commands\\Admin\\view\\": "commands\\Admin\\view"
+    },
+    {
+      "commands\\common\\view\\": "commands\\Common\\view"
     }
   ]
 }
