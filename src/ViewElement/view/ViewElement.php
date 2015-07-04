@@ -95,9 +95,10 @@ class ViewElement {
      * @see View::create()
      * @access public
      * @param \DOMDocument $viewDocument
+     * @param $viewElementValue
      */
-    public function replaceHtml(\DOMDocument $viewDocument) {
-        $viewElement = $viewDocument->getElementById("{{ALViewElement_".$this->_elementId."}}");
+    public function replaceHtml(\DOMDocument $viewDocument, $viewElementValue) {
+        $viewElement = $viewDocument->getElementById("{{".$viewElementValue."_".$this->_elementId."}}");
         if($viewElement !== null) {// could be null if removed a parent of the ViewElement earlier
             if($this->_remove === true) {
                 $viewElement->parentNode->removeChild($viewElement);
@@ -128,7 +129,7 @@ class ViewElement {
                 if($this->_removeIdAfterCreation === true) {
                     $viewElement->removeAttribute("id");
                 } else {
-                    if($viewElement->getAttribute("id") === "{{ALViewElement_".$this->_elementId."}}") {// if they set the id to something else, keep it
+                    if($viewElement->getAttribute("id") === "{{".$viewElementValue."_".$this->_elementId."}}") {// if they set the id to something else, keep it
                         $viewElement->setAttribute("id",  $this->_elementId);
                     }
                 }

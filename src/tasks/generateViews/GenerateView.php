@@ -56,7 +56,7 @@ class GenerateView extends \Task {
             $directorySeparator = $this->setUpDirectorySeparator($viewElementBuild);
 
             $viewFile = file_get_contents($this->name);
-            preg_match_all('@<.* id\s*=\s*["|\']{{'.$viewElementValue.'_(.*)}}["|\'].*>@i', $viewFile, $viewMatches);// find all elements in html with id starting with $viewElementValue
+            preg_match_all('@<.* id\s*=\s*["|\']{{'.$viewElementValue.'_(.*)}}["|\'].*>@i', $viewFile, $viewMatches);// find all elements in html with id starting with $viewElementValue_
 
             $template = getViewTemplate();// bring in basic template for a class that implements IView
 
@@ -69,6 +69,7 @@ class GenerateView extends \Task {
             }
             $vars["class_name"] = ucfirst($fileNameMatches[2]);
             $vars["view_file_name"] = $this->setUpViewFileName($fileNameMatches, $directorySeparator, $viewFileRoot);
+            $vars["view_element_value"] = $viewElementValue;
 
             $template = $this->replaceTokens($vars, $template);
 

@@ -10,9 +10,12 @@ use ViewElement\view\View as View,
   * This is a generated class. Do not edit.
   */
 class UserView extends View implements IView {
+    private $_viewElementValue;
     public $wrapper;
 
     function __construct(){
+        $this->_viewElementValue = "ALViewElement";
+
         $this->wrapper = new ViewElement("wrapper");
 
 
@@ -25,6 +28,10 @@ class UserView extends View implements IView {
     public function getViewElements() {
         $arr = array($this->wrapper);
         return $arr;
+    }
+
+    public function getViewElementValue() {
+        return $this->_viewElementValue;
     }
 
 }

@@ -25,7 +25,7 @@ class View implements IView  {
             $dom->replaceChild($dom->firstChild->firstChild->firstChild, $dom->firstChild);
         }
         foreach($this->getViewElements() as $viewElement) {
-            $viewElement->replaceHtml($dom);
+            $viewElement->replaceHtml($dom, $this->getViewElementValue());
         }
         $html = $dom->saveHTML();
         return $this->_html = trim($html);
@@ -41,5 +41,9 @@ class View implements IView  {
 
     function getViewFile()  {
         throw new \Exception ("Error: getViewFile must be implemented in Child Class");
+    }
+
+    function getViewElementValue() {
+        return "ViewElement";// default
     }
 }
