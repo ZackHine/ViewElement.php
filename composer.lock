@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f8777687f507a188a363811e19a61174",
+    "hash": "8271dbeff895d9501f3e17e0f460461d",
     "packages": [
         {
             "name": "phing/phing",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phingofficial/phing.git",
-                "reference": "0e5f87755e95aa282e4266edae759aff8393f56e"
+                "reference": "da361aa33b9b2940f7c8569fe16da42e71a2a462"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phingofficial/phing/zipball/0e5f87755e95aa282e4266edae759aff8393f56e",
-                "reference": "0e5f87755e95aa282e4266edae759aff8393f56e",
+                "url": "https://api.github.com/repos/phingofficial/phing/zipball/da361aa33b9b2940f7c8569fe16da42e71a2a462",
+                "reference": "da361aa33b9b2940f7c8569fe16da42e71a2a462",
                 "shasum": ""
             },
             "require": {
@@ -96,7 +96,7 @@
                 "task",
                 "tool"
             ],
-            "time": "2015-06-17 13:05:11"
+            "time": "2015-06-29 11:40:46"
         }
     ],
     "packages-dev": [],
