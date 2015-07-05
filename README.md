@@ -18,7 +18,7 @@ It is recommended that you use Composer to install this library. To do that, you
 
     "require": {
         "php": ">=5.3.0",
-        "zackhine/view-element.php": "*"
+        "zackhine/view-element.php": "1.*"
       }
       
 If you don't want to use Composer you could download the source here and include the library in your application. Just be weary that the documentation here is written assuming Composer is being used. Thus, if you're not using Composer some things like paths could end up being different.
